@@ -17,6 +17,7 @@ import signal
 from collections import deque
 import argparse
 from dotenv import load_dotenv
+import sys
 
 # Load environment variables from .env file
 load_dotenv()
@@ -24,8 +25,8 @@ load_dotenv()
 # =========================
 # Env & constants
 # =========================
-BASE_URL = "https://mainnet.zklighter.elliot.ai"
-WEBSOCKET_URL = "wss://mainnet.zklighter.elliot.ai/stream"
+BASE_URL = os.getenv("BASE_URL", "https://mainnet.zklighter.elliot.ai")
+WEBSOCKET_URL = BASE_URL.replace("http", "ws") + "/stream"
 API_KEY_PRIVATE_KEY = os.getenv("API_KEY_PRIVATE_KEY")
 ACCOUNT_INDEX = int(os.getenv("ACCOUNT_INDEX", "0"))
 API_KEY_INDEX = int(os.getenv("API_KEY_INDEX", "0"))
