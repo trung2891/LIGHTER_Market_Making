@@ -16,12 +16,17 @@ from lighter.exceptions import ApiException
 import signal
 from collections import deque
 import argparse
+from dotenv import load_dotenv
+import sys
+
+# Load .env file
+load_dotenv()
 
 # =========================
 # Env & constants
 # =========================
-BASE_URL = "https://mainnet.zklighter.elliot.ai"
-WEBSOCKET_URL = "wss://mainnet.zklighter.elliot.ai/stream"
+BASE_URL = os.getenv("BASE_URL", "https://mainnet.zklighter.elliot.ai")
+WEBSOCKET_URL = BASE_URL.replace("http", "ws") + "/stream"
 API_KEY_PRIVATE_KEY = os.getenv("API_KEY_PRIVATE_KEY")
 ACCOUNT_INDEX = int(os.getenv("ACCOUNT_INDEX", "0"))
 API_KEY_INDEX = int(os.getenv("API_KEY_INDEX", "0"))
@@ -119,6 +124,8 @@ logging.getLogger('websockets').setLevel(logging.WARNING)
 logging.getLogger('asyncio').setLevel(logging.WARNING)
 logging.getLogger('urllib3').setLevel(logging.WARNING)
 logging.root.setLevel(logging.WARNING)
+
+
 
 # =========================
 # Helpers
@@ -738,7 +745,7 @@ async def cancel_order(client, order_id):
     try:
         tx, tx_hash, err = await client.cancel_all_orders(
             time_in_force=client.CANCEL_ALL_TIF_IMMEDIATE,
-            time=0
+            timestamp_ms=0
         )
         if err is not None:
             logger.error(f"❌ Error cancelling all orders: {trim_exception(err)}")
@@ -974,7 +981,7 @@ async def main():
     try:
         tx, tx_hash, err = await client.cancel_all_orders(
             time_in_force=client.CANCEL_ALL_TIF_IMMEDIATE,
-            time=0
+            timestamp_ms=0
         )
         if err is not None:
             logger.error(f"❌ Failed to cancel existing orders at startup: {trim_exception(err)}")
@@ -1114,7 +1121,7 @@ async def main():
         # As a final safety measure, try to cancel all orders one last time.
         try:
             logger.info("🛡️ Final safety measure: attempting to cancel all orders.")
-            await asyncio.wait_for(client.cancel_all_orders(time_in_force=client.CANCEL_ALL_TIF_IMMEDIATE, time=0), timeout=10)
+            await asyncio.wait_for(client.cancel_all_orders(time_in_force=client.CANCEL_ALL_TIF_IMMEDIATE, timestamp_ms=0), timeout=10)
         except asyncio.TimeoutError:
             logger.error("Timeout during final order cancellation.")
         except Exception as e:
