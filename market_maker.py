@@ -53,10 +53,10 @@ os.makedirs(LOG_DIR, exist_ok=True)
 
 # Trading config
 SPREAD = 0.0035 / 100.0  # static fallback spread (if allowed)
-BASE_AMOUNT = os.getenv("BASE_AMOUNT", 0.001)  # static fallback amount
+BASE_AMOUNT = float(os.getenv("BASE_AMOUNT", 0.001))  # static fallback amount
 USE_DYNAMIC_SIZING = True
-CAPITAL_USAGE_PERCENT = os.getenv("CAPITAL_USAGE_PERCENT", 0.02)
-SAFETY_MARGIN_PERCENT = os.getenv("SAFETY_MARGIN_PERCENT", 0.5)
+CAPITAL_USAGE_PERCENT = float(os.getenv("CAPITAL_USAGE_PERCENT", 0.02))
+SAFETY_MARGIN_PERCENT = float(os.getenv("SAFETY_MARGIN_PERCENT", 0.5))
 ORDER_TIMEOUT = 30  # seconds
 
 # Avellaneda
