@@ -4,13 +4,13 @@
         "atr_multiplier": 8.700000000000006
     },
     "backtest_performance": {
-        "sharpe_ratio": 0.18344813574654628,
-        "cumulative_return_pct": 14.8835819236945,
+        "sharpe_ratio": 0.1863414500084766,
+        "cumulative_return_pct": 15.132501063571645,
         "trades": 35
     },
     "current_signal": {
         "trend": -1,
         "interval": "5m",
-        "timestamp_utc": "2025-11-26T09:25:00"
+        "timestamp_utc": "2025-11-26T09:40:00"
     }
 }
